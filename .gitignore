@@ -1,7 +1,27 @@
+# Python
 __pycache__/
 *.pyc
+*.egg-info/
 .venv/
-.env
-data/
-*.parquet
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
 .ipynb_checkpoints/
+
+# Secrets (OpenSky credentials live in the environment, never in the repo)
+.env
+
+# Data: only the committed sample and synthetic scenarios are tracked.
+data/*
+!data/sample/
+!data/synthetic/
+!data/synthetic.py
+!data/README.md
+data/opensky/
+
+# Pipeline outputs (regenerate with `python -m conflict_detection run`)
+results/

@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools==75.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adsb-conflict-detection"
+version = "0.1.0"
+description = "Short-term conflict detection and resolution on ADS-B trajectories, verified in the BlueSky simulator."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Abhishek Maurya" }]
+keywords = ["ads-b", "air traffic management", "conflict detection", "cpa", "kalman filter", "bluesky"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy==2.4.6",
+    "pandas==2.3.3",
+    "scipy==1.17.1",
+    "pyarrow==26.0.1",
+    "matplotlib==3.11.2",
+    "plotly==7.2.0",
+    "folium==1.0.0",
+]
+
+[project.optional-dependencies]
+# Rebuild data/sample from traffic's bundled data, or fetch from OpenSky.
+traffic = ["traffic==2.13"]
+# Run the resolution verification in the BlueSky simulator.
+bluesky = ["bluesky-simulator==1.1.1"]
+# Interactive scenario browser.
+app = ["streamlit==1.67.0"]
+dev = [
+    "pytest==9.2.0",
+    "pytest-cov==7.1.0",
+    "ruff==0.17.6",
+]
+
+[project.scripts]
+adsb-cd = "conflict_detection.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["conflict_detection"]
+omit = ["*/__main__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "NPY", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]
