@@ -69,7 +69,8 @@ class ResolutionConfig:
     heading_changes_deg: tuple[float, ...] = (15.0, 30.0)
     altitude_changes_ft: tuple[float, ...] = (1000.0,)
     speed_changes_frac: tuple[float, ...] = (0.10,)
-    turn_rate_deg_s: float = 3.0  # standard-rate turn
+    bank_angle_deg: float = 25.0  # turn rate = g tan(bank) / V, as in BlueSky
+    accel_kt_s: float = 1.0
     climb_rate_fpm: float = 1500.0
     check_step_s: float = 2.0
 
