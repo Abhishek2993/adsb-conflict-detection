@@ -18,7 +18,6 @@ from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-import streamlit.components.v1 as components
 from plotly.subplots import make_subplots
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,7 +41,7 @@ def load_results(folder: str) -> dict:
     }
     ver = p / "bluesky" / "verification.csv"
     out["bluesky"] = pd.read_csv(ver) if ver.exists() else None
-    out["map"] = (p / "map.html").read_text() if (p / "map.html").exists() else None
+    out["map"] = str(p / "map.html") if (p / "map.html").exists() else None
     return out
 
 
@@ -210,13 +209,13 @@ def main() -> None:
         show = [c for c in show if c in conflicts]
         only = st.toggle("Only conflicts confirmed by an actual LoS", value=False)
         table = conflicts[conflicts.confirmed] if only and "confirmed" in conflicts else conflicts
-        st.dataframe(table[show].round(2), hide_index=True, use_container_width=True)
+        st.dataframe(table[show].round(2), hide_index=True)
         if len(table):
             eid = st.selectbox("Conflict", table.event_id)
             row = conflicts.set_index("event_id").loc[eid]
             row["event_id"] = eid
             left, right = st.columns([3, 2])
-            left.plotly_chart(separation_plot(data, row), use_container_width=True)
+            left.plotly_chart(separation_plot(data, row))
             res = data["resolutions"].set_index("event_id").loc[eid]
             right.markdown(
                 f"**Resolution:** `{res.manoeuvre}` on "
@@ -243,9 +242,10 @@ def main() -> None:
                 right.image(str(fig_png))
     with tab_map:
         if data["map"]:
-            components.html(data["map"], height=650)
+            st.caption("Map tiles and Leaflet load from the internet.")
+            st.iframe(Path(data["map"]), height=650)
     with tab_los:
-        st.dataframe(data["actual"].round(2), hide_index=True, use_container_width=True)
+        st.dataframe(data["actual"].round(2), hide_index=True)
 
 
 main()
