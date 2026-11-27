@@ -24,6 +24,7 @@ import numpy as np
 import pandas as pd
 
 from .config import Config, KalmanConfig
+from .units import FPM
 
 STATE_COLS = ["x", "y", "z", "vx", "vy", "vz"]
 
@@ -141,6 +142,15 @@ def _fill_missing_velocity(t: np.ndarray, pos: np.ndarray, vel: np.ndarray) -> n
     return vel
 
 
+def _snap_level(vel: np.ndarray, threshold_fpm: float) -> np.ndarray:
+    """Zero vertical rates below ``threshold_fpm`` (level-flight snapping)."""
+    if threshold_fpm <= 0:
+        return vel
+    vel = vel.copy()
+    vel[np.abs(vel[:, 2]) < threshold_fpm * FPM, 2] = 0.0
+    return vel
+
+
 def estimate_states(
     reports: pd.DataFrame,
     eval_times: np.ndarray,
@@ -179,14 +189,14 @@ def estimate_states(
             continue
         k, age, te = k[valid], age[valid], eval_times[valid]
         if method == "cv":
-            v = _fill_missing_velocity(t, pos, vel)[k]
+            v = _snap_level(_fill_missing_velocity(t, pos, vel)[k], cfg.level_snap_fpm)
             p = pos[k] + v * age[:, None]
             sigma = np.full(len(k), np.nan)
         else:
             trk = filter_track(t, pos, vel, cfg.kalman, cfg.cleaning.max_gap_s)
             s = trk.state[k]  # (m, 3, 2)
-            p = s[:, :, 0] + s[:, :, 1] * age[:, None]
-            v = s[:, :, 1]
+            v = _snap_level(s[:, :, 1], cfg.level_snap_fpm)
+            p = s[:, :, 0] + v * age[:, None]
             # Horizontal position variance propagated over the age.
             P = trk.cov[k]
             var_x = P[:, 0, 0, 0] + 2 * age * P[:, 0, 0, 1] + age**2 * P[:, 0, 1, 1]

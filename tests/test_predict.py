@@ -154,3 +154,13 @@ def test_prediction_errors_zero_for_perfect_cv():
     err = prediction_errors(st, grid, lookaheads_s=(0, 60, 120))
     assert set(err.lookahead_s) == {0, 60, 120}
     assert err.err_h_m.max() < 1e-6 and err.err_v_m.max() < 1e-6
+
+
+@pytest.mark.parametrize("method", ["cv", "kalman"])
+def test_level_snap_zeroes_small_vertical_rates(method):
+    t, _, meas, vel = cv_track(n=40)  # true vertical rate 5 m/s ~ 984 ft/min
+    df = reports_frame(t, meas, vel)
+    loose = estimate_states(df, np.array([150.0]), Config(level_snap_fpm=500.0), method)
+    tight = estimate_states(df, np.array([150.0]), Config(level_snap_fpm=1500.0), method)
+    assert loose.vz.iloc[0] == pytest.approx(5.0, abs=0.05)
+    assert tight.vz.iloc[0] == 0.0

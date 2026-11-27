@@ -1,5 +1,7 @@
 """Resolution manoeuvre kinematics and selection logic."""
 
+from dataclasses import replace
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -139,3 +141,33 @@ def test_resolve_all_returns_one_row_per_event():
     out = resolve_all(events, states_table(head_on()), CFG)
     assert out.event_id.tolist() == ["C001", "C002"]
     assert out.resolved.all()
+
+
+def test_required_margin_rejects_marginal_manoeuvres():
+    # Slow overtake: a +10 % speed change leaves 6.2 NM at the worst instant
+    # (margin 1.24). Requiring 5 NM x 1.25 = 6.25 NM forces the next rung.
+    rows = [
+        ["aaaaaa", "A", 0.0, 0.0, 37000 * FT, 420 * KT, 0.0, 0.0],
+        ["bbbbbb", "B", -6.0 * NM, 2.0 * NM, 37000 * FT, 450 * KT, 0.0, 0.0],
+    ]
+    loose = resolve_event(EVENT, states_table(rows), CFG)
+    strict_cfg = Config(resolution=replace(CFG.resolution, required_margin=1.25))
+    strict = resolve_event(EVENT, states_table(rows), strict_cfg)
+    assert loose.kind == "speed" and loose.margin_after == pytest.approx(1.241, abs=1e-3)
+    assert strict.resolved and strict.cost > loose.cost
+    assert strict.hdist_after_nm >= 6.25 or strict.vsep_after_ft >= 1000
+
+
+def test_buffer_does_not_block_level_changes():
+    # Head-on with third-party traffic blocking every turn (see above): the
+    # level change ends exactly 1000 ft apart and must stay acceptable with a buffer.
+    rows = [
+        *head_on(),
+        ["cccccc", "C", 0.0, 6.0 * NM, 37000 * FT, 450 * KT, 0.0, 0.0],
+        ["dddddd", "D", 0.0, -6.0 * NM, 37000 * FT, 450 * KT, 0.0, 0.0],
+        ["eeeeee", "E", 40.0 * NM, 7.0 * NM, 37000 * FT, -450 * KT, 0.0, 0.0],
+        ["ffffff", "F", 40.0 * NM, -5.0 * NM, 37000 * FT, -450 * KT, 0.0, 0.0],
+    ]
+    cfg = Config(resolution=replace(CFG.resolution, required_margin=1.1))
+    res = resolve_event(EVENT, states_table(rows), cfg)
+    assert res.resolved and res.kind == "level"

@@ -115,12 +115,20 @@ def fly(
     return np.column_stack([x, y, z])
 
 
-def _separation(p: np.ndarray, q: np.ndarray, cfg: Config) -> tuple[bool, float, float, float]:
-    """LoS flag, normalised margin and (hdist, vsep) at the worst instant."""
+def _separation(
+    p: np.ndarray, q: np.ndarray, cfg: Config, h_buffer: float = 1.0
+) -> tuple[bool, float, float, float]:
+    """LoS flag, normalised margin and (hdist, vsep) at the worst instant.
+
+    ``h_buffer`` scales the horizontal minimum only: with 1.1 the pair must
+    stay 5.5 NM apart unless it is vertically separated. The vertical minimum
+    is not buffered because a one-level change ends exactly 1000 ft apart,
+    which is the standard (and precisely flown) vertical resolution.
+    """
     hd = np.hypot(p[..., 0] - q[..., 0], p[..., 1] - q[..., 1])
     vd = np.abs(p[..., 2] - q[..., 2])
     d_min, h_min = cfg.separation.horizontal_m, cfg.separation.vertical_m
-    los = bool(in_los(hd, vd, d_min, h_min).any())
+    los = bool(in_los(hd, vd, d_min * h_buffer, h_min).any())
     # Separated if EITHER ratio >= 1; the margin is the worst instant of the larger ratio.
     ratio = np.maximum(hd / d_min, vd / h_min)
     k = np.unravel_index(np.argmin(ratio), ratio.shape)
@@ -190,7 +198,7 @@ def resolve_event(
         for who, own, other_path in ((event.icao_a, sa, pb), (event.icao_b, sb, pa)):
             tried += 1
             path = fly(own, man, tau, cfg)
-            los, margin, hd, vd = _separation(path, other_path, cfg)
+            los, margin, hd, vd = _separation(path, other_path, cfg, cfg.resolution.required_margin)
             if los:
                 continue
             if len(other_paths):

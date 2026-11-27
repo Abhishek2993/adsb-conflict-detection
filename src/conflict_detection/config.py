@@ -73,6 +73,10 @@ class ResolutionConfig:
     accel_kt_s: float = 1.0
     climb_rate_fpm: float = 1500.0
     check_step_s: float = 2.0
+    #: Horizontal buffer for accepting a manoeuvre: the pair must stay at least
+    #: required_margin x 5 NM apart unless vertically separated (>= 1000 ft).
+    #: 1.0 = just restores the minima; >1 absorbs prediction/simulator mismatch.
+    required_margin: float = 1.0
 
 
 @dataclass(frozen=True)
@@ -89,6 +93,9 @@ class Config:
     predictor: PredictorName = "kalman"
     rule: DetectionRule = "cpa"
     stale_after_s: float = 30.0
+    #: Vertical rates smaller than this [ft/min] are treated as level flight
+    #: (0 disables). Removes vertical-rate noise on level aircraft.
+    level_snap_fpm: float = 0.0
     event_merge_gap_s: float = 30.0
     min_track_before_los_s: float = 60.0
 
