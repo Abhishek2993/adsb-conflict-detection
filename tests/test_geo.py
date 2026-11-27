@@ -40,7 +40,7 @@ def test_inverse_round_trip_far_from_origin():
 
 
 def test_planar_distance_matches_ellipsoid_chord():
-    # Two points ~84 NM apart, either side of the origin. The tangent-plane
+    # Two points ~155 NM apart, either side of the origin. The tangent-plane
     # distance must agree with the straight-line (ECEF chord) distance between
     # the points on the ellipsoid to well under 0.05 NM.
     f = LocalFrame(46.9, 7.8)
