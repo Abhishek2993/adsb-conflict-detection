@@ -215,7 +215,9 @@ def summary(res: PipelineResult) -> dict[str, Any]:
         out["bluesky"] = {
             "encounters_exported": len(b),
             "simulated": len(sim),
-            "conflict_reproduced": int(sim.conflict_reproduced.fillna(False).astype(bool).sum()),
+            "conflict_reproduced": int(
+                sim.conflict_reproduced.astype("boolean").fillna(False).astype(bool).sum()
+            ),
             "resolved_runs": len(both),
             "resolution_success": int(both.resolution_success.astype(bool).sum()),
             "resolution_success_rate": round(float(both.resolution_success.astype(bool).mean()), 4)
