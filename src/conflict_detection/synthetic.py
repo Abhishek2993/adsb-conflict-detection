@@ -323,5 +323,5 @@ def generate_scenario(
             )
         )
     traj = pd.concat(frames, ignore_index=True).sort_values(["timestamp", "icao24"])
-    truth = pd.DataFrame([asdict(tr) for tr in truths])
+    truth = pd.DataFrame([asdict(tr) for tr in truths]).round(6)
     return traj.reset_index(drop=True), truth

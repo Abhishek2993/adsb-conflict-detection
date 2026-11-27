@@ -1,0 +1,17 @@
+{
+  "name": "synthetic_noisy",
+  "source": "conflict_detection.synthetic.generate_scenario",
+  "seed": 7,
+  "noise": {
+    "position_m": 40.0,
+    "groundspeed_kt": 2.0,
+    "track_deg": 0.5,
+    "vertical_rate_fpm": 150.0,
+    "altitude_quantum_ft": 25.0
+  },
+  "altitude_reference": "barometric",
+  "n_aircraft": 18,
+  "n_reports": 12978,
+  "start": "2026-01-15 10:00:00+00:00",
+  "stop": "2026-01-15 12:12:00+00:00"
+}

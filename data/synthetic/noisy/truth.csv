@@ -1,0 +1,10 @@
+encounter,kind,icao_a,icao_b,t_cpa,dcpa_nm,vsep_cpa_ft,min_hdist_nm,los,los_start,los_end,designed_dcpa_nm,designed_vsep_ft
+head_on_conflict,head-on,f0000a,f0000b,2026-01-15 10:08:00+00:00,2.0,0.0,2.0,True,2026-01-15 10:07:42+00:00,2026-01-15 10:08:18+00:00,2.0,0.0
+head_on_clear,head-on,f0010a,f0010b,2026-01-15 10:23:00+00:00,6.0,0.0,6.0,False,,,6.0,0.0
+crossing_conflict,crossing,f0020a,f0020b,2026-01-15 10:38:00+00:00,1.0,500.0,1.0,True,2026-01-15 10:37:32+00:00,2026-01-15 10:38:28+00:00,1.0,500.0
+crossing_adjacent_level,crossing,f0030a,f0030b,2026-01-15 10:53:00+00:00,0.0,1000.0,0.0,False,,,0.0,1000.0
+crossing_boundary_4_5nm,crossing,f0040a,f0040b,2026-01-15 11:08:00+00:00,4.5,0.0,4.5,True,2026-01-15 11:07:48+00:00,2026-01-15 11:08:12+00:00,4.5,0.0
+overtaking_conflict,overtaking,f0050a,f0050b,2026-01-15 11:23:00+00:00,3.0,0.0,3.0,True,2026-01-15 11:20:37+00:00,2026-01-15 11:25:23+00:00,3.0,0.0
+overtaking_clear,overtaking,f0060a,f0060b,2026-01-15 11:38:00+00:00,7.0,0.0,7.0,False,,,7.0,0.0
+climbing_crossing_conflict,climbing,f0070a,f0070b,2026-01-15 11:53:00+00:00,1.5,0.0,1.5,True,2026-01-15 11:52:22+00:00,2026-01-15 11:53:38+00:00,1.5,0.0
+turn_into_conflict,turning,f0080a,f0080b,2026-01-15 12:08:07+00:00,0.14514,0.0,0.14514,True,2026-01-15 12:07:47+00:00,2026-01-15 12:08:27+00:00,8.0,0.0

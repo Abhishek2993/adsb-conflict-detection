@@ -1,0 +1,11 @@
+{
+  "name": "synthetic_clean",
+  "source": "conflict_detection.synthetic.generate_scenario",
+  "seed": 7,
+  "noise": null,
+  "altitude_reference": "barometric",
+  "n_aircraft": 18,
+  "n_reports": 12978,
+  "start": "2026-01-15 10:00:00+00:00",
+  "stop": "2026-01-15 12:12:00+00:00"
+}
