@@ -1,6 +1,7 @@
 """BlueSky scenario export and log verification (BlueSky itself is optional)."""
 
 import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -162,16 +163,18 @@ def test_verify_logs_and_manual_matching(tmp_path):
     # The fake logs use AC1/AC2 as ids; point the manifest at them.
     man.loc[:, ["acid_a", "acid_b"]] = ["AC1", "AC2"]
     logs = bb.find_manual_logs(man, logdir)
-    assert set(logs) == {m.unresolved, m.resolved}
+    assert set(logs) == {str(Path(m.unresolved).resolve()), str(Path(m.resolved).resolve())}
     v = bb.verify_logs(man, logs)
     assert bool(v.conflict_reproduced.iloc[0]) and bool(v.resolution_success.iloc[0])
     assert "bluesky-verify" in bb.manual_run_instructions(tmp_path)
 
 
 @pytest.mark.skipif(not bb.bluesky_available(), reason="bluesky-simulator not installed")
-def test_bluesky_headless_run(tmp_path):
-    files = bb.export_encounter(EVENT, states(), resolution(), FRAME, tmp_path / "scn", Config())
-    logs = bb.run_scenarios([files.unresolved, files.resolved], tmp_path / "work")
+def test_bluesky_headless_run(tmp_path, monkeypatch):
+    # Relative scenario paths (as written by the CLI) must still match their logs.
+    monkeypatch.chdir(tmp_path)
+    files = bb.export_encounter(EVENT, states(), resolution(), FRAME, Path("scn"), Config())
+    logs = bb.run_scenarios([files.unresolved, files.resolved], Path("work"))
     man = pd.DataFrame([files.__dict__])
     v = bb.verify_logs(man, logs).iloc[0]
     assert bool(v.unresolved_los)  # 1 NM head-on miss: LoS in BlueSky too

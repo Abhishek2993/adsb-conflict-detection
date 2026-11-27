@@ -306,7 +306,12 @@ def run_scenarios(scn_files: list[str], workdir: str | Path) -> dict[str, str]:
     if proc.returncode != 0 or not result.exists():
         raise RuntimeError(f"BlueSky run failed, see {workdir / 'bluesky_stdout.txt'}")
     logs = json.loads(result.read_text())
-    return {str(Path(k)): v for k, v in logs.items()}
+    return {_key(k): v for k, v in logs.items()}
+
+
+def _key(scn: str | Path) -> str:
+    """Canonical dictionary key for a scenario file (absolute, resolved path)."""
+    return str(Path(scn).resolve())
 
 
 def read_log(path: str | Path) -> pd.DataFrame:
@@ -362,10 +367,11 @@ def verify_logs(
                "command": m.command, "simulable": bool(m.simulable)}  # fmt: skip
         for label in ("unresolved", "resolved"):
             scn = m[label]
-            key = str(Path(scn)) if isinstance(scn, str) else None
+            key = _key(scn) if isinstance(scn, str) else None
             if key and key in logs:
                 sep = separation_from_log(read_log(logs[key]), m.acid_a, m.acid_b, cfg)
                 row.update({f"{label}_{k}": v for k, v in sep.items()})
+                row[f"{label}_log"] = logs[key]
         rows.append(row)
     out = pd.DataFrame(rows)
     if "unresolved_los" in out and "resolved_los" in out:
@@ -388,7 +394,7 @@ def find_manual_logs(manifest: pd.DataFrame, log_dir: str | Path) -> dict[str, s
             stem = Path(scn).stem
             hits = [f for f in files if f.name.startswith(f"{LOGGER}_{stem}_")]
             if hits:
-                logs[str(Path(scn))] = str(hits[-1])
+                logs[_key(scn)] = str(hits[-1])
     return logs
 
 
