@@ -1,0 +1,17 @@
+scenario,predictor,rule,level_snap_fpm,actual_los,actual_los_not_evaluable,true_positives,missed,alert_events,false_alarms,recall,precision,mean_warning_s,median_warning_s,min_warning_s,flight_hours,false_alarms_per_flight_hour
+sample,cv,cpa,0.0,20,5,19,1,87,44,0.95,0.4943,219.2105,240.0,85.0,20.6333,2.1325
+sample,cv,cpa,200.0,20,5,17,3,49,21,0.85,0.5714,198.2353,235.0,10.0,20.6333,1.0178
+sample,cv,interval,0.0,20,5,20,0,101,50,1.0,0.505,234.0,260.0,95.0,20.6333,2.4233
+sample,cv,interval,200.0,20,5,19,1,63,24,0.95,0.619,206.8421,240.0,10.0,20.6333,1.1632
+sample,kalman,cpa,0.0,20,5,19,1,83,41,0.95,0.506,223.9474,260.0,95.0,20.6333,1.9871
+sample,kalman,cpa,200.0,20,5,19,1,71,36,0.95,0.493,218.9474,260.0,85.0,20.6333,1.7447
+sample,kalman,interval,0.0,20,5,20,0,94,47,1.0,0.5,228.0,262.5,15.0,20.6333,2.2779
+sample,kalman,interval,200.0,20,5,19,1,80,39,0.95,0.5125,233.1579,265.0,95.0,20.6333,1.8901
+synthetic_noisy,cv,cpa,0.0,6,0,6,0,11,3,1.0,0.7273,221.3333,252.0,127.0,3.6,0.8333
+synthetic_noisy,cv,cpa,200.0,6,0,6,0,10,4,1.0,0.6,224.6667,257.0,127.0,3.6,1.1111
+synthetic_noisy,cv,interval,0.0,6,0,6,0,10,4,1.0,0.6,266.3333,292.0,127.0,3.6,1.1111
+synthetic_noisy,cv,interval,200.0,6,0,6,0,12,6,1.0,0.5,263.0,289.5,127.0,3.6,1.6667
+synthetic_noisy,kalman,cpa,0.0,6,0,6,0,8,2,1.0,0.75,224.6667,257.0,127.0,3.6,0.5556
+synthetic_noisy,kalman,cpa,200.0,6,0,6,0,8,2,1.0,0.75,224.6667,257.0,127.0,3.6,0.5556
+synthetic_noisy,kalman,interval,0.0,6,0,6,0,9,3,1.0,0.6667,266.3333,292.0,127.0,3.6,0.8333
+synthetic_noisy,kalman,interval,200.0,6,0,6,0,9,3,1.0,0.6667,266.3333,292.0,127.0,3.6,0.8333

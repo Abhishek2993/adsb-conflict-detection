@@ -24,4 +24,4 @@ data/*
 data/opensky/
 
 # Pipeline outputs (regenerate with `python -m conflict_detection run`)
-results/
+/results/

@@ -1,0 +1,569 @@
+{
+  "default_sample": {
+    "scenario": "switzerland_20180801_1400",
+    "source": "traffic.data.samples.switzerland (OpenSky Network data bundled with traffic)",
+    "window_utc": [
+      "2018-08-01 14:00:00+00:00",
+      "2018-08-01 14:59:50+00:00"
+    ],
+    "aircraft": 78,
+    "reports": 7500,
+    "flight_hours": 20.63,
+    "predictor": "kalman",
+    "rule": "cpa",
+    "horizon_s": 300.0,
+    "truth_source": "recorded trajectories resampled to the common grid",
+    "detection": {
+      "actual_los": 20,
+      "actual_los_not_evaluable": 5,
+      "true_positives": 19,
+      "missed": 1,
+      "alert_events": 83,
+      "false_alarms": 41,
+      "recall": 0.95,
+      "precision": 0.506,
+      "mean_warning_s": 223.9474,
+      "median_warning_s": 260.0,
+      "min_warning_s": 95.0,
+      "flight_hours": 20.6333,
+      "false_alarms_per_flight_hour": 1.9871
+    },
+    "pair_search": {
+      "eval_times": 360,
+      "aircraft_states": 7695,
+      "naive_pairs": 79880,
+      "candidate_pairs": 6602,
+      "max_aircraft": 27,
+      "reduction": 0.9174
+    },
+    "resolution_model": {
+      "events": 83,
+      "resolved": 79,
+      "success_rate": 0.9518,
+      "by_manoeuvre": {
+        "heading +15 deg": 26,
+        "heading -15 deg": 21,
+        "level +1000 ft": 14,
+        "level -1000 ft": 9,
+        "speed -10 %": 8,
+        "none found": 4,
+        "speed +10 %": 1
+      }
+    },
+    "cleaning": {
+      "input_reports": 7513,
+      "missing_fields": 0,
+      "on_ground": 0,
+      "duplicates": 0,
+      "altitude_out_of_range": 0,
+      "position_jumps": 6,
+      "altitude_jumps": 0,
+      "short_tracks": 7,
+      "invalid_velocities": 0,
+      "output_reports": 7500,
+      "input_aircraft": 79,
+      "output_aircraft": 78,
+      "notes": []
+    },
+    "timings_s": {
+      "clean": 0.105,
+      "predict": 0.919,
+      "detect": 0.368,
+      "resolve": 0.276
+    },
+    "bluesky": {
+      "encounters_exported": 83,
+      "simulated": 82,
+      "conflict_reproduced": 37,
+      "resolved_runs": 78,
+      "resolution_success": 74,
+      "resolution_success_rate": 0.9487
+    }
+  },
+  "default_synthetic_noisy": {
+    "scenario": "synthetic_noisy",
+    "source": "conflict_detection.synthetic.generate_scenario",
+    "window_utc": [
+      "2026-01-15 10:00:00+00:00",
+      "2026-01-15 12:12:00+00:00"
+    ],
+    "aircraft": 18,
+    "reports": 12978,
+    "flight_hours": 3.6,
+    "predictor": "kalman",
+    "rule": "cpa",
+    "horizon_s": 300.0,
+    "truth_source": "synthetic truth.csv (noise-free trajectories)",
+    "detection": {
+      "actual_los": 6,
+      "actual_los_not_evaluable": 0,
+      "true_positives": 6,
+      "missed": 0,
+      "alert_events": 8,
+      "false_alarms": 2,
+      "recall": 1.0,
+      "precision": 0.75,
+      "mean_warning_s": 224.6667,
+      "median_warning_s": 257.0,
+      "min_warning_s": 127.0,
+      "flight_hours": 3.6,
+      "false_alarms_per_flight_hour": 0.5556
+    },
+    "pair_search": {
+      "eval_times": 681,
+      "aircraft_states": 1362,
+      "naive_pairs": 681,
+      "candidate_pairs": 427,
+      "max_aircraft": 2,
+      "reduction": 0.373
+    },
+    "resolution_model": {
+      "events": 8,
+      "resolved": 8,
+      "success_rate": 1.0,
+      "by_manoeuvre": {
+        "heading -15 deg": 6,
+        "level -1000 ft": 1,
+        "speed -10 %": 1
+      }
+    },
+    "cleaning": {
+      "input_reports": 12978,
+      "missing_fields": 0,
+      "on_ground": 0,
+      "duplicates": 0,
+      "altitude_out_of_range": 0,
+      "position_jumps": 0,
+      "altitude_jumps": 0,
+      "short_tracks": 0,
+      "invalid_velocities": 0,
+      "output_reports": 12978,
+      "input_aircraft": 18,
+      "output_aircraft": 18,
+      "notes": []
+    },
+    "timings_s": {
+      "clean": 0.064,
+      "predict": 1.416,
+      "detect": 0.517,
+      "resolve": 0.032
+    },
+    "bluesky": {
+      "encounters_exported": 8,
+      "simulated": 8,
+      "conflict_reproduced": 8,
+      "resolved_runs": 8,
+      "resolution_success": 8,
+      "resolution_success_rate": 1.0
+    }
+  },
+  "default_synthetic_clean": {
+    "scenario": "synthetic_clean",
+    "source": "conflict_detection.synthetic.generate_scenario",
+    "window_utc": [
+      "2026-01-15 10:00:00+00:00",
+      "2026-01-15 12:12:00+00:00"
+    ],
+    "aircraft": 18,
+    "reports": 12978,
+    "flight_hours": 3.6,
+    "predictor": "kalman",
+    "rule": "cpa",
+    "horizon_s": 300.0,
+    "truth_source": "synthetic truth.csv (noise-free trajectories)",
+    "detection": {
+      "actual_los": 6,
+      "actual_los_not_evaluable": 0,
+      "true_positives": 6,
+      "missed": 0,
+      "alert_events": 6,
+      "false_alarms": 0,
+      "recall": 1.0,
+      "precision": 1.0,
+      "mean_warning_s": 223.0,
+      "median_warning_s": 257.0,
+      "min_warning_s": 127.0,
+      "flight_hours": 3.6,
+      "false_alarms_per_flight_hour": 0.0
+    },
+    "pair_search": {
+      "eval_times": 681,
+      "aircraft_states": 1362,
+      "naive_pairs": 681,
+      "candidate_pairs": 387,
+      "max_aircraft": 2,
+      "reduction": 0.4317
+    },
+    "resolution_model": {
+      "events": 6,
+      "resolved": 6,
+      "success_rate": 1.0,
+      "by_manoeuvre": {
+        "heading -15 deg": 5,
+        "speed -10 %": 1
+      }
+    },
+    "cleaning": {
+      "input_reports": 12978,
+      "missing_fields": 0,
+      "on_ground": 0,
+      "duplicates": 0,
+      "altitude_out_of_range": 0,
+      "position_jumps": 0,
+      "altitude_jumps": 0,
+      "short_tracks": 0,
+      "invalid_velocities": 0,
+      "output_reports": 12978,
+      "input_aircraft": 18,
+      "output_aircraft": 18,
+      "notes": []
+    },
+    "timings_s": {
+      "clean": 0.063,
+      "predict": 1.322,
+      "detect": 0.494,
+      "resolve": 0.028
+    }
+  },
+  "bluesky_breakdown_sample": {
+    "confirmed": {
+      "events": 42,
+      "conflict_reproduced": 17,
+      "resolution_success": 37,
+      "resolved_runs": 39
+    },
+    "false_alarm": {
+      "events": 40,
+      "conflict_reproduced": 20,
+      "resolution_success": 37,
+      "resolved_runs": 39
+    },
+    "failed_resolutions": [
+      {
+        "event_id": "C003",
+        "command": "SPD DLH54N 299.8",
+        "resolved_min_hdist_nm": 4.13,
+        "resolved_vsep_at_min_ft": 664.7
+      },
+      {
+        "event_id": "C005",
+        "command": "SPD BAW2641 221.4",
+        "resolved_min_hdist_nm": 4.97,
+        "resolved_vsep_at_min_ft": 977.0
+      },
+      {
+        "event_id": "C009",
+        "command": "SPD IBE3129 203.4",
+        "resolved_min_hdist_nm": 3.17,
+        "resolved_vsep_at_min_ft": 978.0
+      },
+      {
+        "event_id": "C050",
+        "command": "SPD VLG6206 214.1",
+        "resolved_min_hdist_nm": 4.6,
+        "resolved_vsep_at_min_ft": 951.0
+      }
+    ],
+    "failed_margin_in_model": [
+      1.014,
+      1.127,
+      1.091,
+      1.095
+    ]
+  },
+  "bluesky_breakdown_synthetic_noisy": {
+    "confirmed": {
+      "events": 6,
+      "conflict_reproduced": 6,
+      "resolution_success": 6,
+      "resolved_runs": 6
+    },
+    "false_alarm": {
+      "events": 2,
+      "conflict_reproduced": 2,
+      "resolution_success": 2,
+      "resolved_runs": 2
+    },
+    "failed_resolutions": [],
+    "failed_margin_in_model": []
+  },
+  "bluesky_reproduction_sample": [
+    {
+      "pair": "climbing/descending",
+      "start_below_1000ft": false,
+      "events": 4,
+      "reproduced": 4
+    },
+    {
+      "pair": "climbing/descending",
+      "start_below_1000ft": true,
+      "events": 8,
+      "reproduced": 8
+    },
+    {
+      "pair": "level",
+      "start_below_1000ft": false,
+      "events": 43,
+      "reproduced": 0
+    },
+    {
+      "pair": "level",
+      "start_below_1000ft": true,
+      "events": 27,
+      "reproduced": 25
+    }
+  ],
+  "robust_sample": {
+    "scenario": "switzerland_20180801_1400",
+    "source": "traffic.data.samples.switzerland (OpenSky Network data bundled with traffic)",
+    "window_utc": [
+      "2018-08-01 14:00:00+00:00",
+      "2018-08-01 14:59:50+00:00"
+    ],
+    "aircraft": 78,
+    "reports": 7500,
+    "flight_hours": 20.63,
+    "predictor": "kalman",
+    "rule": "cpa",
+    "horizon_s": 300.0,
+    "truth_source": "recorded trajectories resampled to the common grid",
+    "detection": {
+      "actual_los": 20,
+      "actual_los_not_evaluable": 5,
+      "true_positives": 19,
+      "missed": 1,
+      "alert_events": 83,
+      "false_alarms": 41,
+      "recall": 0.95,
+      "precision": 0.506,
+      "mean_warning_s": 223.9474,
+      "median_warning_s": 260.0,
+      "min_warning_s": 95.0,
+      "flight_hours": 20.6333,
+      "false_alarms_per_flight_hour": 1.9871
+    },
+    "pair_search": {
+      "eval_times": 360,
+      "aircraft_states": 7695,
+      "naive_pairs": 79880,
+      "candidate_pairs": 6602,
+      "max_aircraft": 27,
+      "reduction": 0.9174
+    },
+    "resolution_model": {
+      "events": 83,
+      "resolved": 79,
+      "success_rate": 0.9518,
+      "by_manoeuvre": {
+        "heading +15 deg": 27,
+        "heading -15 deg": 19,
+        "level +1000 ft": 16,
+        "level -1000 ft": 14,
+        "none found": 4,
+        "speed -10 %": 3
+      }
+    },
+    "cleaning": {
+      "input_reports": 7513,
+      "missing_fields": 0,
+      "on_ground": 0,
+      "duplicates": 0,
+      "altitude_out_of_range": 0,
+      "position_jumps": 6,
+      "altitude_jumps": 0,
+      "short_tracks": 7,
+      "invalid_velocities": 0,
+      "output_reports": 7500,
+      "input_aircraft": 79,
+      "output_aircraft": 78,
+      "notes": []
+    },
+    "timings_s": {
+      "clean": 0.139,
+      "predict": 0.896,
+      "detect": 0.399,
+      "resolve": 0.278
+    },
+    "bluesky": {
+      "encounters_exported": 83,
+      "simulated": 82,
+      "conflict_reproduced": 37,
+      "resolved_runs": 78,
+      "resolution_success": 77,
+      "resolution_success_rate": 0.9872
+    }
+  },
+  "bluesky_breakdown_sample_robust": {
+    "confirmed": {
+      "events": 42,
+      "conflict_reproduced": 17,
+      "resolution_success": 39,
+      "resolved_runs": 39
+    },
+    "false_alarm": {
+      "events": 40,
+      "conflict_reproduced": 20,
+      "resolution_success": 38,
+      "resolved_runs": 39
+    },
+    "failed_resolutions": [
+      {
+        "event_id": "C005",
+        "command": "SPD BAW2641 221.4",
+        "resolved_min_hdist_nm": 4.97,
+        "resolved_vsep_at_min_ft": 977.0
+      }
+    ],
+    "failed_margin_in_model": [
+      1.127
+    ]
+  },
+  "tolerance_800ft_sample": {
+    "scenario": "switzerland_20180801_1400",
+    "source": "traffic.data.samples.switzerland (OpenSky Network data bundled with traffic)",
+    "window_utc": [
+      "2018-08-01 14:00:00+00:00",
+      "2018-08-01 14:59:50+00:00"
+    ],
+    "aircraft": 78,
+    "reports": 7500,
+    "flight_hours": 20.63,
+    "predictor": "kalman",
+    "rule": "cpa",
+    "horizon_s": 300.0,
+    "truth_source": "recorded trajectories resampled to the common grid",
+    "detection": {
+      "actual_los": 0,
+      "actual_los_not_evaluable": 0,
+      "true_positives": 0,
+      "missed": 0,
+      "alert_events": 40,
+      "false_alarms": 40,
+      "recall": NaN,
+      "precision": 0.0,
+      "mean_warning_s": NaN,
+      "median_warning_s": NaN,
+      "min_warning_s": NaN,
+      "flight_hours": 20.6333,
+      "false_alarms_per_flight_hour": 1.9386
+    },
+    "pair_search": {
+      "eval_times": 360,
+      "aircraft_states": 7695,
+      "naive_pairs": 79880,
+      "candidate_pairs": 4846,
+      "max_aircraft": 27,
+      "reduction": 0.9393
+    },
+    "resolution_model": {
+      "events": 40,
+      "resolved": 40,
+      "success_rate": 1.0,
+      "by_manoeuvre": {
+        "heading -15 deg": 18,
+        "heading +15 deg": 12,
+        "level -1000 ft": 5,
+        "speed -10 %": 3,
+        "speed +10 %": 1,
+        "level +1000 ft": 1
+      }
+    },
+    "cleaning": {
+      "input_reports": 7513,
+      "missing_fields": 0,
+      "on_ground": 0,
+      "duplicates": 0,
+      "altitude_out_of_range": 0,
+      "position_jumps": 6,
+      "altitude_jumps": 0,
+      "short_tracks": 7,
+      "invalid_velocities": 0,
+      "output_reports": 7500,
+      "input_aircraft": 79,
+      "output_aircraft": 78,
+      "notes": []
+    },
+    "timings_s": {
+      "clean": 0.096,
+      "predict": 0.881,
+      "detect": 0.285,
+      "resolve": 0.158
+    }
+  },
+  "sample_actual_los_vsep": {
+    "events": 25,
+    "min_vsep_ft_min": 925.0000000000016,
+    "min_vsep_ft_max": 987.4999999999992,
+    "at_or_above_900ft": 25,
+    "min_hdist_nm_min": 0.16485335210381394
+  },
+  "showcase_sample": {
+    "event_id": "C066",
+    "icao_a": "345101",
+    "icao_b": "3c6442",
+    "callsign_a": "VLG6206",
+    "callsign_b": "DLH88W",
+    "t_first": 2710.0,
+    "t_last": 2740.0,
+    "n_alerts": 3,
+    "tcpa_first_s": 170.82529867726606,
+    "dcpa_first_nm": 0.5743560167690557,
+    "vsep_first_ft": 254.09536176230512,
+    "dcpa_min_nm": 0.5743560167690557,
+    "t_predicted_cpa": 2880.825298677266,
+    "severity_max": 0.5812028726539639,
+    "confirmed": true,
+    "los_id": "L021"
+  },
+  "benchmark": [
+    {
+      "aircraft": 50,
+      "kdtree": 0.00028,
+      "kdtree_pairs": 21,
+      "naive": 0.00025,
+      "naive_pairs": 1225
+    },
+    {
+      "aircraft": 100,
+      "kdtree": 0.00022,
+      "kdtree_pairs": 81,
+      "naive": 0.00068,
+      "naive_pairs": 4950
+    },
+    {
+      "aircraft": 200,
+      "kdtree": 0.00032,
+      "kdtree_pairs": 155,
+      "naive": 0.00296,
+      "naive_pairs": 19900
+    },
+    {
+      "aircraft": 500,
+      "kdtree": 0.00078,
+      "kdtree_pairs": 486,
+      "naive": 0.02445,
+      "naive_pairs": 124750
+    },
+    {
+      "aircraft": 1000,
+      "kdtree": 0.00151,
+      "kdtree_pairs": 1043,
+      "naive": 0.08528,
+      "naive_pairs": 499500
+    },
+    {
+      "aircraft": 2000,
+      "kdtree": 0.00336,
+      "kdtree_pairs": 2010,
+      "naive": 0.35063,
+      "naive_pairs": 1999000
+    },
+    {
+      "aircraft": 5000,
+      "kdtree": 0.00807,
+      "kdtree_pairs": 5188,
+      "naive": 2.44353,
+      "naive_pairs": 12497500
+    }
+  ]
+}
