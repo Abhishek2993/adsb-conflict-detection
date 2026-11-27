@@ -115,6 +115,17 @@ def bluesky_reproduction(res: PipelineResult) -> list[dict]:
     return g.rename(columns={"size": "events", "sum": "reproduced"}).to_dict("records")
 
 
+def alert_pair_types(res: PipelineResult) -> dict:
+    """Count alert events by whether either aircraft climbs/descends >= 300 ft/min."""
+    st = res.states.set_index(["t_eval", "icao24"])
+    out = {"level_pairs": 0, "climbing_or_descending": 0}
+    for _, e in res.events.iterrows():
+        a, b = st.loc[(e.t_first, e.icao_a)], st.loc[(e.t_first, e.icao_b)]
+        moving = max(abs(a.vz), abs(b.vz)) / FPM >= 300
+        out["climbing_or_descending" if moving else "level_pairs"] += 1
+    return out
+
+
 def main() -> None:
     FIG.mkdir(parents=True, exist_ok=True)
     OUT.mkdir(parents=True, exist_ok=True)
@@ -167,7 +178,12 @@ def main() -> None:
 
     # 3. Altimetry tolerance sensitivity (vertical threshold 800 ft).
     tol = Config(separation=SeparationMinima(horizontal_nm=5.0, vertical_ft=800.0))
-    results["tolerance_800ft_sample"] = summary(run_pipeline(scen["sample"], tol))
+    tol_run = run_pipeline(scen["sample"], tol)
+    results["tolerance_800ft_sample"] = summary(tol_run)
+    results["tolerance_800ft_alert_pairs"] = alert_pair_types(tol_run)
+    tol_snap = run_pipeline(scen["sample"], replace(tol, level_snap_fpm=200.0))
+    results["tolerance_800ft_level_snap_200fpm_sample"] = summary(tol_snap)
+    results["tolerance_800ft_level_snap_200fpm_alert_pairs"] = alert_pair_types(tol_snap)
     actual = base["sample"].actual
     results["sample_actual_los_vsep"] = {
         "events": len(actual),

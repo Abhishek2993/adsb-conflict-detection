@@ -495,8 +495,15 @@ are the same pairs with ~50 ft/min of vertical-rate noise extrapolated over
 Two things follow, and both are in the README:
 
 1. A sensitivity run with an altimetry tolerance (vertical threshold 800 ft,
-   `configs/altimetry_tolerance_200ft.json`) shows how many alerts survive
-   when quantisation artefacts are excluded.
+   `configs/altimetry_tolerance_200ft.json`) removes every actual LoS from
+   the hour, but 40 alert events remain, and 36 of them are still level
+   pairs: 50 ft/min of estimated vertical rate extrapolated for 300 s is
+   250 ft. Snapping vertical rates below 200 ft/min to zero on top of the
+   tolerance leaves 6 alert events, 4 of them with genuinely climbing or
+   descending traffic. Lesson: on real data the biggest false-alarm source is
+   not position noise but projecting tiny vertical rates of level aircraft,
+   and the cure is a level-flight model (or intent: the ADS-B selected
+   altitude), not a better filter.
 2. A good synthetic test set is essential: it is the only place where the
    ground truth contains real, deep losses of separation with known geometry.
 
